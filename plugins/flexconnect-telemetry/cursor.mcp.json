@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "telemetry": {
+      "url": "https://mcp.audesseinc.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${FLEXCONNECT_MCP_TOKEN}"
+      }
+    }
+  }
+}

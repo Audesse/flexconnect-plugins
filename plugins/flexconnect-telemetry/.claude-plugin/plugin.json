@@ -1,0 +1,17 @@
+{
+  "name": "flexconnect-telemetry",
+  "description": "Read-only agent access to Flexconnect device telemetry (device list, overview, last/range readings) via the Flexconnect MCP server.",
+  "version": "1.1.1",
+  "author": { "name": "Audesse" },
+  "repository": "https://github.com/Audesse/flexconnect-plugins",
+  "keywords": ["flexconnect", "telemetry", "mcp"],
+  "userConfig": {
+    "flexconnect_mcp_token": {
+      "type": "string",
+      "title": "Flexconnect MCP token",
+      "description": "Your Flexconnect API key (flx_...) or bearer token for the telemetry MCP server, scoped to your own org and devices.",
+      "sensitive": true,
+      "required": true
+    }
+  }
+}
