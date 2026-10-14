@@ -1,0 +1,12 @@
+{
+  "name": "flexconnect-plugins",
+  "interface": { "displayName": "Audesse Flexconnect" },
+  "plugins": [
+    {
+      "name": "flexconnect-telemetry",
+      "source": { "source": "local", "path": "./plugins/flexconnect-telemetry" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}

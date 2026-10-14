@@ -1,0 +1,16 @@
+{
+  "name": "flexconnect-plugins",
+  "owner": { "name": "Audesse" },
+  "metadata": {
+    "description": "Audesse Flexconnect agent plugins and MCP extensions.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "flexconnect-telemetry",
+      "source": "./plugins/flexconnect-telemetry",
+      "description": "Read-only agent access to Flexconnect device telemetry via MCP.",
+      "version": "1.1.1"
+    }
+  ]
+}
