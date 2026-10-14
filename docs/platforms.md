@@ -9,8 +9,13 @@ formats are moving fast. Check the linked docs when something stops loading.
   `<plugin>/.claude-plugin/plugin.json`. MCP: `<plugin>/.mcp.json`.
 - `.mcp.json` supports `${VAR}`, `${VAR:-default}` and
   `${user_config.<key>}` interpolation in `url` and `headers`.
-- Secrets: declare in `userConfig` with `"sensitive": true`. Claude Code
-  prompts on install and stores the value in secure storage.
+- Auth: we ship only `type` and `url`. Claude Code sees the server's 401,
+  discovers OAuth, registers a client dynamically, and marks the server
+  **Needs authentication** in `/mcp` (or `claude mcp login <name>`). Plugin
+  server names are `plugin:<plugin>:<server>`. Tokens are stored and
+  refreshed by Claude Code.
+- For a static token, declare it in `userConfig` with `"sensitive": true`
+  and reference `${user_config.<key>}` in `headers`.
 - Remote transport type is `"http"`.
 - Validate with `claude plugin validate <path>`.
 - Docs: <https://code.claude.com/docs/en/plugins>
@@ -59,11 +64,13 @@ formats are moving fast. Check the linked docs when something stops loading.
   Code's: `name`, `owner`, `plugins[].source`).
 - Manifest: `<plugin>/.cursor-plugin/plugin.json`. Its `mcpServers` field
   overrides the default `mcp.json` discovery. We point it at
-  `cursor.mcp.json`, because the root `mcp.json` is the portable file and
-  has no auth header.
-- Secrets: declare a JSON-schema `variables` object in the manifest and
-  reference it as `${NAME}` in the MCP file. Values are set in the Cursor
-  dashboard. Cursor plugins don't support `${env:NAME}`, which only works in
-  a user's own `.cursor/mcp.json`.
+  `cursor.mcp.json`.
+- Auth: we ship only `url`, and Cursor runs OAuth with dynamic client
+  registration (the user clicks **Connect** in Settings → MCP). An `auth`
+  object (`CLIENT_ID`, `scopes`) is only for servers without dynamic
+  registration.
+- For a static token, declare a JSON-schema `variables` object in the
+  manifest and reference it as `${NAME}` in the MCP file. Cursor plugins
+  don't support `${env:NAME}`.
 - Transport is inferred from `url`/`command`, so omit `type`.
 - Docs: <https://cursor.com/docs/plugins>, <https://cursor.com/docs/reference/plugins>

@@ -20,17 +20,20 @@ for):
 | `.cursor-plugin/plugin.json` + `cursor.mcp.json` | Cursor |
 | `skills/flexconnect-telemetry/SKILL.md` | all clients |
 
-## 1. Get a token
+## 1. Sign in
 
-The server accepts a Flexconnect API key (`flx_...`) or a Flexconnect JWT as
-`Authorization: Bearer <token>`.
+Claude Code, Codex and Cursor sign you in with OAuth: the first time the
+agent uses the server, a browser window opens and you sign in with your
+Flexconnect account. There's no token to paste, and the agent only sees the
+devices your account can access.
 
-Codex signs in with OAuth and doesn't need a token. For the other clients,
-we recommend an API key: create one in the Flexconnect dashboard, scoped to
-the devices the agent should see, with `telemetry:read`.
+### Using a token instead
 
-Treat the token like a password. It grants read access to your org's
-telemetry.
+Clients without OAuth (GitHub Copilot, the Claude and OpenAI APIs) need a
+Flexconnect API key (`flx_...`) or JWT, sent as
+`Authorization: Bearer <token>`. Create an API key in the Flexconnect
+dashboard, scoped to the devices the agent should see, with
+`telemetry:read`. Treat it like a password.
 
 ## 2. Install
 
@@ -46,9 +49,10 @@ working from a checkout.
 
 Non-interactive: `claude plugin install flexconnect-telemetry@flexconnect-plugins --scope user`.
 
-When prompted for **Flexconnect MCP token**, paste the token. It's stored
-securely, and `.mcp.json` adds the `Bearer ` prefix. If you skipped the prompt,
-set it later with `/config`. Run `/reload-plugins` if asked.
+Run `/reload-plugins` if asked. Then run `/mcp`, select
+`plugin:flexconnect-telemetry:telemetry` (marked **Needs authentication**),
+and sign in with your Flexconnect account. From a shell:
+`claude mcp login plugin:flexconnect-telemetry:telemetry`.
 
 Tools show up as `mcp__plugin_flexconnect-telemetry_telemetry__<tool>`.
 
@@ -86,8 +90,8 @@ so add the MCP server itself with a bearer header, as described in
 ### Cursor
 
 Add this repo as a team marketplace (Dashboard → Plugins), or install from
-the Cursor Marketplace once published. Set the `FLEXCONNECT_MCP_TOKEN`
-variable to your token when prompted / in the dashboard.
+the Cursor Marketplace once published. In **Settings → MCP**, click
+**Connect** next to `telemetry` and sign in with your Flexconnect account.
 
 ## Other clients
 
