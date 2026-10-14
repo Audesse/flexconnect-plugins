@@ -1,12 +1,14 @@
 # Connecting AI clients to the Flexconnect API
 
-The Flexconnect MCP server is a remote **Streamable HTTP** MCP endpoint. Send
-a Flexconnect API key (`flx_...`) or a Flexconnect JWT as a bearer token:
+The Flexconnect MCP server is a remote **Streamable HTTP** MCP endpoint at
+`https://mcp.audesseinc.com/mcp/`. It accepts two kinds of authentication:
 
-```
-URL:     https://mcp.audesseinc.com/mcp/
-Header:  Authorization: Bearer <your token>
-```
+- **OAuth sign-in** with your Flexconnect account. Clients that support it
+  (claude.ai, ChatGPT, Codex) discover it automatically, so there's nothing
+  to configure.
+- **A bearer token**: a Flexconnect API key (`flx_...`) or JWT sent as
+  `Authorization: Bearer <your token>`. Use this for the APIs and clients
+  without OAuth.
 
 How to get a token: [plugins/flexconnect-telemetry/README.md § Get a token](../../plugins/flexconnect-telemetry/README.md#1-get-a-token).
 
@@ -14,10 +16,10 @@ How to get a token: [plugins/flexconnect-telemetry/README.md § Get a token](../
 
 | Client | Works today? | Guide |
 | - | - | - |
-| Claude Code, Codex, Cursor | Yes, install the plugin | [plugin README](../../plugins/flexconnect-telemetry/README.md) |
+| Claude Code, Codex, Cursor | Yes, install the plugin (Codex signs in with OAuth) | [plugin README](../../plugins/flexconnect-telemetry/README.md) |
 | GitHub Copilot, or any of the above without the plugin | Yes, manual MCP config | [manual-mcp-config.md](manual-mcp-config.md) |
-| claude.ai (web, Desktop, mobile) | Yes, if your org has the **Request headers** beta | [claude.md](claude.md) |
-| ChatGPT (web/desktop) | **No, not yet** | [chatgpt.md](chatgpt.md) |
+| claude.ai (web, Desktop, mobile) | Yes, sign in with OAuth | [claude.md](claude.md) |
+| ChatGPT (web/desktop) | Yes, sign in with OAuth | [chatgpt.md](chatgpt.md) |
 | Claude API (Messages API) | Yes | [claude-api.md](claude-api.md) |
 | OpenAI API (Responses API) | Yes | [openai-api.md](openai-api.md) |
 
