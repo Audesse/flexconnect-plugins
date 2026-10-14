@@ -15,43 +15,36 @@ formats are moving fast. Check the linked docs when something stops loading.
 - Validate with `claude plugin validate <path>`.
 - Docs: <https://code.claude.com/docs/en/plugins>
 
-## Agent Plugins 1.0 (portable): Codex, GitHub Copilot
-
-- Spec: <https://agent-plugins.org/specification>
-- Manifest: `<plugin>/plugin.json` with
-  `"$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"`.
-  Allowed top-level fields: `$schema`, `name`, `version`, `description`,
-  `author`, `homepage`, `repository`, `license`, `keywords`, `extensions`.
-- MCP: `<plugin>/mcp.json` with
-  `"$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json"`.
-  Remote servers need `"type": "streamable-http"` (or `"sse"`).
-- **No interpolation in `url`/`headers`, and no secrets in headers.** Auth is
-  client-managed. Client-specific extensions go under `extensions`, keyed by
-  reverse-domain namespace.
-- Skills are discovered from `skills/`. No manifest field is needed.
-
-### Codex
+## Codex
 
 - Marketplace: `.agents/plugins/marketplace.json`. `source` is an object
   (`{"source": "local", "path": "./plugins/x"}`, resolved from the repo
   root). Every entry needs `policy` and `category`.
-- Bearer-token auth: on the server in `mcp.json`, set
-  `extensions["com.openai"].auth = {"type": "api_key", "headerScheme": "bearer"}`.
-  Codex asks the user for the key during install (`policy.authentication:
-  ON_INSTALL`).
-- OpenAI-specific manifest fields go under `extensions["com.openai"]`
-  (`interface`, `hooks`, `apps`, ...). A legacy `.codex-plugin/plugin.json`
-  is still read as a fallback, but we don't ship one.
+- Manifest: `<plugin>/.codex-plugin/plugin.json`, with `interface` at the top
+  level and `mcpServers` pointing at `codex.mcp.json`.
+- `codex.mcp.json` uses Codex's own server keys (the same as
+  `[mcp_servers.*]` in `config.toml`): `url` plus
+  `bearer_token_env_var`. Codex sends the variable's value as
+  `Authorization: Bearer <value>`. `bearer_token` (a literal token) is
+  rejected.
+- **Don't ship a root Agent Plugins `plugin.json`.** When one exists, Codex
+  uses it and its `mcp.json`, and ignores the MCP config in
+  `.codex-plugin/`. Codex 26.1007 also rejects the documented per-server
+  `extensions["com.openai"].auth` block in `mcp.json` ("unknown field
+  `extensions`"), so a portable manifest can't carry the token yet.
+- Check an install with `codex mcp list`: the server should show the
+  `bearer_token_env_var`. Plugin load errors are logged to
+  `~/.codex/logs_2.sqlite` (target `codex_core_plugins::loader`).
 - Docs: <https://developers.openai.com/codex/plugins/build>
 
-### GitHub Copilot (CLI and VS Code)
+## GitHub Copilot (CLI and VS Code)
 
 - Marketplace: `.github/plugin/marketplace.json` (also reads
   `.claude-plugin/marketplace.json`). Same schema as Claude Code's.
-- Loads the Agent Plugins `plugin.json` + `mcp.json`. Copilot-specific
-  components go in `<plugin>/com.github.copilot/`.
-- **Known gap:** we haven't confirmed how Copilot supplies a static bearer
-  token to an Agent Plugins remote server. If it doesn't, users fall back to
+- Copilot reads Agent Plugins 1.0 manifests at the plugin root and falls back
+  to legacy manifest locations. We don't ship a portable manifest (see
+  Codex), so Copilot uses the fallback.
+- Copilot plugins can't supply a bearer token, so users add the server with
   [manual config](connect/manual-mcp-config.md#github-copilot-cli).
 - Docs: <https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/plugins-creating>
 

@@ -16,9 +16,9 @@ for):
 | File | Read by |
 | - | - |
 | `.claude-plugin/plugin.json` + `.mcp.json` | Claude Code |
-| `plugin.json` + `mcp.json` (Agent Plugins 1.0) | Codex, GitHub Copilot |
+| `.codex-plugin/plugin.json` + `codex.mcp.json` | Codex |
 | `.cursor-plugin/plugin.json` + `cursor.mcp.json` | Cursor |
-| `skills/flexconnect-telemetry/SKILL.md` | all four |
+| `skills/flexconnect-telemetry/SKILL.md` | all clients |
 
 ## 1. Get a token
 
@@ -58,8 +58,23 @@ codex plugin marketplace add Audesse/flexconnect-plugins
 ```
 
 Then install **Flexconnect Telemetry** from the Plugins directory (Codex app /
-ChatGPT desktop). Codex asks for the API key during install (`mcp.json`
-declares bearer `api_key` auth).
+ChatGPT desktop).
+
+Codex reads the token from the `FLEXCONNECT_MCP_TOKEN` environment variable.
+Set it, then restart Codex:
+
+```bash
+# macOS / Linux: add to your shell profile
+export FLEXCONNECT_MCP_TOKEN=flx_...
+```
+
+```powershell
+# Windows: stored for your user, picked up by newly started apps
+setx FLEXCONNECT_MCP_TOKEN flx_...
+```
+
+`codex mcp list` should show `telemetry` with `FLEXCONNECT_MCP_TOKEN` as its
+bearer token variable.
 
 ### GitHub Copilot CLI
 
@@ -68,10 +83,9 @@ copilot plugin marketplace add Audesse/flexconnect-plugins
 copilot plugin install flexconnect-telemetry@flexconnect-plugins
 ```
 
-The portable `mcp.json` deliberately carries no credentials (the Agent Plugins
-spec forbids secrets in headers), so authentication is up to Copilot. If the
-server shows as failing to connect, add it manually with a bearer header
-instead — see [docs/connect/manual-mcp-config.md](../../docs/connect/manual-mcp-config.md#github-copilot-cli).
+The plugin adds the skill. Copilot plugins have no way to supply the token,
+so add the MCP server itself with a bearer header, as described in
+[docs/connect/manual-mcp-config.md](../../docs/connect/manual-mcp-config.md#github-copilot-cli).
 
 ### Cursor
 

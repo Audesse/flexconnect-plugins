@@ -6,8 +6,8 @@ supported clients. Run from anywhere:
 
 Checks:
 - every JSON manifest parses
-- each plugin has the per-client manifests (Claude Code, Agent Plugins 1.0
-  for Codex/Copilot, Cursor) and they agree on name, version and description
+- each plugin has the per-client manifests (Claude Code, Codex, Cursor) and
+  they agree on name, version and description
 - each plugin is listed in all four marketplaces, with a source path that
   points at it, and nothing is listed that doesn't exist
 - skills have SKILL.md frontmatter whose `name` matches the folder
@@ -32,11 +32,10 @@ MARKETPLACES = {
 # Manifests whose name/version/description must agree, per plugin.
 MANIFESTS = {
     "claude": ".claude-plugin/plugin.json",
-    "agent-plugins": "plugin.json",
+    "codex": ".codex-plugin/plugin.json",
     "cursor": ".cursor-plugin/plugin.json",
 }
-REQUIRED_FILES = [".mcp.json", "mcp.json", "README.md"]
-AGENT_PLUGINS_SCHEMA = "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"
+REQUIRED_FILES = [".mcp.json", "README.md"]
 SECRET_PATTERN = re.compile(r"flx_[A-Za-z0-9]{8,}|eyJ[A-Za-z0-9_-]{10,}\.|sk-[A-Za-z0-9]{16,}")
 
 errors: list[str] = []
@@ -72,16 +71,15 @@ def check_plugin(plugin_dir: Path) -> tuple[str, str] | None:
         values = {client: m.get(key) for client, m in manifests.items()}
         if len(set(values.values())) != 1:
             errors.append(f"{rel}: '{key}' differs between manifests: {values}")
-    if manifests["agent-plugins"].get("$schema") != AGENT_PLUGINS_SCHEMA:
-        errors.append(f"{rel}/plugin.json: $schema must be {AGENT_PLUGINS_SCHEMA}")
     name = manifests["claude"]["name"]
     if name != plugin_dir.name:
         errors.append(f"{rel}: plugin name '{name}' doesn't match its folder name")
 
-    # Cursor's mcpServers may point at a non-default file; it must exist.
-    cursor_mcp = manifests["cursor"].get("mcpServers")
-    if isinstance(cursor_mcp, str) and not (plugin_dir / cursor_mcp).exists():
-        errors.append(f"{rel}/.cursor-plugin/plugin.json: mcpServers -> missing {cursor_mcp}")
+    # Codex and Cursor point mcpServers at their own MCP file; it must exist.
+    for client in ("codex", "cursor"):
+        mcp = manifests[client].get("mcpServers")
+        if isinstance(mcp, str) and not (plugin_dir / mcp).exists():
+            errors.append(f"{rel}/{MANIFESTS[client]}: mcpServers -> missing {mcp}")
 
     for mcp_file in plugin_dir.glob("*mcp.json"):
         load(mcp_file)

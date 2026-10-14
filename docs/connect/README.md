@@ -14,8 +14,8 @@ How to get a token: [plugins/flexconnect-telemetry/README.md § Get a token](../
 
 | Client | Works today? | Guide |
 | - | - | - |
-| Claude Code, Codex, Copilot, Cursor | Yes, install the plugin | [plugin README](../../plugins/flexconnect-telemetry/README.md) |
-| Claude Code / Codex / Copilot / Cursor without the plugin | Yes, manual MCP config | [manual-mcp-config.md](manual-mcp-config.md) |
+| Claude Code, Codex, Cursor | Yes, install the plugin | [plugin README](../../plugins/flexconnect-telemetry/README.md) |
+| GitHub Copilot, or any of the above without the plugin | Yes, manual MCP config | [manual-mcp-config.md](manual-mcp-config.md) |
 | claude.ai (web, Desktop, mobile) | Yes, if your org has the **Request headers** beta | [claude.md](claude.md) |
 | ChatGPT (web/desktop) | **No, not yet** | [chatgpt.md](chatgpt.md) |
 | Claude API (Messages API) | Yes | [claude-api.md](claude-api.md) |
