@@ -25,7 +25,8 @@ for):
 The server accepts a Flexconnect API key (`flx_...`) or a Flexconnect JWT as
 `Authorization: Bearer <token>`.
 
-We recommend an API key: create one in the Flexconnect dashboard, scoped to
+Codex signs in with OAuth and doesn't need a token. For the other clients,
+we recommend an API key: create one in the Flexconnect dashboard, scoped to
 the devices the agent should see, with `telemetry:read`.
 
 Treat the token like a password. It grants read access to your org's
@@ -60,21 +61,16 @@ codex plugin marketplace add Audesse/flexconnect-plugins
 Then install **Flexconnect Telemetry** from the Plugins directory (Codex app /
 ChatGPT desktop).
 
-Codex reads the token from the `FLEXCONNECT_MCP_TOKEN` environment variable.
-Set it, then restart Codex:
+Codex signs you in with OAuth, so there's no token to paste. When asked,
+sign in with your Flexconnect account in the browser window that opens. To
+sign in again later, run:
 
 ```bash
-# macOS / Linux: add to your shell profile
-export FLEXCONNECT_MCP_TOKEN=flx_...
+codex mcp login telemetry
 ```
 
-```powershell
-# Windows: stored for your user, picked up by newly started apps
-setx FLEXCONNECT_MCP_TOKEN flx_...
-```
-
-`codex mcp list` should show `telemetry` with `FLEXCONNECT_MCP_TOKEN` as its
-bearer token variable.
+`codex mcp list` should show `telemetry` with Auth `OAuth` once you're
+signed in.
 
 ### GitHub Copilot CLI
 

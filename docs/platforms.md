@@ -23,17 +23,22 @@ formats are moving fast. Check the linked docs when something stops loading.
 - Manifest: `<plugin>/.codex-plugin/plugin.json`, with `interface` at the top
   level and `mcpServers` pointing at `codex.mcp.json`.
 - `codex.mcp.json` uses Codex's own server keys (the same as
-  `[mcp_servers.*]` in `config.toml`): `url` plus
-  `bearer_token_env_var`. Codex sends the variable's value as
-  `Authorization: Bearer <value>`. `bearer_token` (a literal token) is
+  `[mcp_servers.*]` in `config.toml`). We give only `url` and
+  `scopes: ["telemetry:read"]`. Codex discovers OAuth from the server's 401
+  `WWW-Authenticate` header, registers a client dynamically, and runs the
+  PKCE login on install (`policy.authentication: ON_INSTALL`) or with
+  `codex mcp login <server>`. For a static token, use
+  `bearer_token_env_var` instead. `bearer_token` (a literal token) is
   rejected.
+- Don't set `oauth_resource` to the URL with a trailing slash: Codex then
+  sends two `resource` parameters (`.../mcp` and `.../mcp/`).
 - **Don't ship a root Agent Plugins `plugin.json`.** When one exists, Codex
   uses it and its `mcp.json`, and ignores the MCP config in
   `.codex-plugin/`. Codex 26.1007 also rejects the documented per-server
   `extensions["com.openai"].auth` block in `mcp.json` ("unknown field
-  `extensions`"), so a portable manifest can't carry the token yet.
-- Check an install with `codex mcp list`: the server should show the
-  `bearer_token_env_var`. Plugin load errors are logged to
+  `extensions`"), so a portable manifest can't carry auth settings yet.
+- Check an install with `codex mcp list`: the server shows `Not logged in`
+  until the user signs in, then `OAuth`. Plugin load errors are logged to
   `~/.codex/logs_2.sqlite` (target `codex_core_plugins::loader`).
 - Docs: <https://developers.openai.com/codex/plugins/build>
 
