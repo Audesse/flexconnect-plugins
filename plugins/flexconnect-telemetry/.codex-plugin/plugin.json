@@ -1,10 +1,17 @@
 {
   "name": "flexconnect-telemetry",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Read-only agent access to Flexconnect device telemetry (device list, overview, last/range readings) via the Flexconnect MCP server.",
-  "author": { "name": "Audesse" },
+  "author": {
+    "name": "Audesse"
+  },
+  "homepage": "https://audesseinc.com",
   "repository": "https://github.com/Audesse/flexconnect-plugins",
-  "keywords": ["flexconnect", "telemetry", "mcp"],
+  "keywords": [
+    "flexconnect",
+    "telemetry",
+    "mcp"
+  ],
   "skills": "./skills/",
   "mcpServers": "./codex.mcp.json",
   "interface": {
@@ -12,7 +19,15 @@
     "shortDescription": "Read-only Flexconnect device telemetry",
     "developerName": "Audesse",
     "category": "Productivity",
-    "capabilities": ["Read"],
-    "defaultPrompt": ["List my Flexconnect devices and summarize their latest overview."]
+    "capabilities": [
+      "Read"
+    ],
+    "defaultPrompt": [
+      "List my Flexconnect devices and summarize their latest overview."
+    ],
+    "websiteURL": "https://audesseinc.com",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo.svg",
+    "logoDark": "./assets/logo-dark.svg"
   }
 }

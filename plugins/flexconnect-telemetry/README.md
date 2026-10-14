@@ -19,6 +19,7 @@ for):
 | `.codex-plugin/plugin.json` + `codex.mcp.json` | Codex |
 | `.cursor-plugin/plugin.json` + `cursor.mcp.json` | Cursor |
 | `skills/flexconnect-telemetry/SKILL.md` | all clients |
+| `assets/logo.svg`, `assets/logo-dark.svg` | plugin icon (Claude Code, Codex, Cursor) |
 
 ## 1. Sign in
 
