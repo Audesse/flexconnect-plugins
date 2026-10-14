@@ -53,5 +53,3 @@ docs/platforms.md                  per-client file formats
 docs/connect/                      connection guides for chat apps and APIs
 scripts/validate.py                consistency checks (run in CI)
 ```
-
-Adding or changing a plugin? Read [AGENTS.md](AGENTS.md).
