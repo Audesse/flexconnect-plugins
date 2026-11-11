@@ -9,8 +9,8 @@
     {
       "name": "flexconnect-telemetry",
       "source": "./plugins/flexconnect-telemetry",
-      "description": "Read-only agent access to Flexconnect device telemetry via MCP.",
-      "version": "1.2.1"
+      "description": "Agent access to Flexconnect device telemetry and annotations via MCP.",
+      "version": "1.3.0"
     }
   ]
 }

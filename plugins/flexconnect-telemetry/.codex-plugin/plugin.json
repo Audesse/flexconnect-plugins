@@ -1,7 +1,7 @@
 {
   "name": "flexconnect-telemetry",
-  "version": "1.2.1",
-  "description": "Read-only agent access to Flexconnect device telemetry (device list, overview, last/range readings) via the Flexconnect MCP server.",
+  "version": "1.3.0",
+  "description": "Agent access to Flexconnect device telemetry (device list, overview, last/range readings) and device annotations via the Flexconnect MCP server.",
   "author": {
     "name": "Audesse"
   },
@@ -16,11 +16,12 @@
   "mcpServers": "./codex.mcp.json",
   "interface": {
     "displayName": "Flexconnect Telemetry",
-    "shortDescription": "Read-only Flexconnect device telemetry",
+    "shortDescription": "Flexconnect device telemetry and annotations",
     "developerName": "Audesse",
     "category": "Productivity",
     "capabilities": [
-      "Read"
+      "Read",
+      "Write"
     ],
     "defaultPrompt": [
       "List my Flexconnect devices and summarize their latest overview."

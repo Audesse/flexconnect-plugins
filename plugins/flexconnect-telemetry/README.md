@@ -2,14 +2,18 @@
 
 Registers the Flexconnect telemetry MCP server
 (`https://mcp.audesseinc.com/mcp/`, Streamable HTTP) in your coding agent,
-plus a skill that teaches the agent how to use it.
+plus skills that teach the agent how to use it.
 
-Tools (all read-only, scoped to whatever org/devices your token is authorized
-for):
+Tools (scoped to whatever org/devices your token is authorized for):
 
-`telemetry_list_devices`, `telemetry_list_fields`, `telemetry_get_overview`,
-`telemetry_get_last`, `telemetry_get_multi_last`, `telemetry_get_range`,
-`telemetry_get_multi_range`.
+- Read-only: `telemetry_list_devices`, `telemetry_list_fields`,
+  `telemetry_get_overview`, `telemetry_get_last`, `telemetry_get_multi_last`,
+  `telemetry_get_range`, `telemetry_get_multi_range`,
+  `telemetry_list_annotations`.
+- Write (needs a token with the device-metadata write permission):
+  `telemetry_create_annotation`, `telemetry_delete_annotation`. These record
+  and remove timestamped notes on a device, such as the start of an
+  experiment.
 
 ## Contents
 
@@ -19,6 +23,7 @@ for):
 | `.codex-plugin/plugin.json` + `codex.mcp.json` | Codex |
 | `.cursor-plugin/plugin.json` + `cursor.mcp.json` | Cursor |
 | `skills/flexconnect-telemetry/SKILL.md` | all clients |
+| `skills/flexconnect-annotations/SKILL.md` | all clients |
 | `assets/logo.svg`, `assets/logo-dark.svg` | plugin icon (Claude Code, Codex, Cursor) |
 
 ## 1. Sign in
