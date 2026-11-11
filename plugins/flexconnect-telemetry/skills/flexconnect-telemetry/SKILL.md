@@ -5,8 +5,11 @@ description: Answer questions about Flexconnect devices (location, battery, sens
 
 # Querying Flexconnect telemetry
 
-The `telemetry` MCP server is read-only and scoped to the caller's own org and
-devices. All timestamps are ISO-8601 UTC (`2024-01-01T00:00:00Z`).
+The `telemetry` MCP server is scoped to the caller's own org and devices. All
+timestamps are ISO-8601 UTC (`2024-01-01T00:00:00Z`). The reading tools below
+are read-only. For notes pinned to a device's timeline, such as the start of
+an experiment (`telemetry_*_annotation*` tools), use the
+`flexconnect-annotations` skill.
 
 ## Workflow
 
